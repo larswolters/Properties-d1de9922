@@ -2,6 +2,8 @@
 
 class MyLogger
 {
+    protected $origin;
+
     public function log($level, $message)
     {
         switch ($level) {
@@ -22,7 +24,7 @@ class MyLogger
 
     private function logWithTime($message)
     {
-        return '[' . date('Y-m-d H:i', time()) . '] ' . $message;
+        return '[' . date('Y-m-d H:i', time()) . '] ' . $this->origin . ' - ' . $message;
     }
 
     public function warning($message)
@@ -44,7 +46,13 @@ class MyLogger
     {
         print_r($this->logWithTime('Debug: ' . $message));
     }
+
+    public function setOrigin($origin)
+    {
+        $this->origin = $origin;
+    }
 }
 
 $logger = new MyLogger();
+$logger->setOrigin('TestClass');
 $logger->log('warning', 'Bla Bla');
